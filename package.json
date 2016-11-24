@@ -1,0 +1,8 @@
+{
+  "name": "universe_collector",
+  "version": "0.1.0",
+  "main": "./main.js",
+  "devDependencies": {
+    "electron-prebuilt": "^0.30.8"
+  }
+}
