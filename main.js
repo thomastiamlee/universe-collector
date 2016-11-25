@@ -13,7 +13,7 @@ app.on('ready', function() {
     resizable: false,
     show: false,
   });
-  // mainWindow.openDevTools();
+  mainWindow.openDevTools();
 
   mainWindow.setMenu(null);
   mainWindow.once("ready-to-show", function() {
