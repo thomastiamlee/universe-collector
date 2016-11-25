@@ -1,9 +1,64 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-
+    <title>Universe Collector</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"  />
+    <link rel="stylesheet" href="css/custom.css" />
   </head>
   <body>
-    <h1>Hello World</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <pre id="editor"></pre>
+        </div>
+        <div class="col-md-4">
+          <div id="problemRow" class="row">
+            <div class="col-md-12">
+              <h4>Problem <span id="problemNumber">1</span></h4>
+              <p>
+                Write a program that determines if a given number is even or odd.
+                Output "even" if the given number is even or "odd" if the given
+                number is odd.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h5>Separate multiple inputs with space.</h5>
+              <input id="inputField" type="text" class="form-control" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button class="btn btn-default controlButton" type="submit">Test Run</button>
+              <button class="btn btn-default controlButton" type="submit">Submit Code</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h5>Console / Output</h5>
+          <textarea readonly id="console"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script>window.$ = window.jQuery = require("./js/jquery-3.1.1.min.js");</script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/src-min-noconflict/ace.js"></script>
+    <script>
+      $(document).ready(function() {
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/clouds");
+        editor.session.setMode("ace/mode/java");
+        editor.setFontSize(14);
+      });
+    </script>
   </body>
 </html>

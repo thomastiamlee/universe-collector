@@ -1,0 +1,18 @@
+pre#editor {
+  height: 500px;
+}
+
+textarea#console {
+  height:100px;
+  resize: none;
+  width: 100%;
+}
+
+div#problemRow {
+  height: 375px;
+}
+
+button.controlButton {
+  margin-right: 20px;
+  margin-top: 20px;
+}
