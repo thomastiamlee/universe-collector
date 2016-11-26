@@ -1,35 +1,35 @@
 [
   {
-    "problemStatement" : "Write a program that determines if a given number is even or odd. Output <span class=\"green\">even</span> if the given number is even or <span class=\"green\">odd</span> if the given number is odd.",
+    "problemStatement" : "Write a program that determines if a given number is even or odd. outputString <span class=\"green\">even</span> if the given number is even or <span class=\"green\">odd</span> if the given number is odd.",
     "testCases" : [
       {
-        "input" : "10",
-        "output" : "even"
+        "inputString" : "4",
+        "outputString" : "even"
       },
       {
-        "input" : "7",
-        "output" : "odd"
+        "inputString" : "9",
+        "outputString" : "odd"
       },
       {
-        "input" : "19",
-        "output" : "odd"
+        "inputString" : "19",
+        "outputString" : "odd"
       }
     ]
   },
   {
-    "problemStatement" : "Write a program that determines if a given number is prime or not. Output <span class=\"green\">prime</span> if the given number is prime or <span class=\"green\">not prime</span> if the given number is not prime.",
+    "problemStatement" : "Write a program that determines if a given number is prime or not. outputString <span class=\"green\">prime</span> if the given number is prime or <span class=\"green\">not prime</span> if the given number is not prime.",
     "testCases" : [
       {
-        "input" : "4",
-        "output" : "not prime"
+        "inputString" : "4",
+        "outputString" : "not prime"
       },
       {
-        "input" : "13",
-        "output" : "prime"
+        "inputString" : "13",
+        "outputString" : "prime"
       },
       {
-        "input" : "19",
-        "output" : "prime"
+        "inputString" : "19",
+        "outputString" : "prime"
       }
     ]
   }

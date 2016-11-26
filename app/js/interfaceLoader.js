@@ -1,7 +1,7 @@
 
 function loadProblem(problemIndex) {
   $.getJSON("../problems.json", function(json) {
-    var problem = json[problemIndex];
+    problem = json[problemIndex];
     currentProblem = problemIndex;
     $("span#problemNumber").text(currentProblem + 1);
     $("p#problemStatement").html(problem.problemStatement);
