@@ -19,8 +19,14 @@ function runCode(doc) {
         return console.log("Error in compilation");
       }
       var execute = spawn(tempObjFilePath, []);
-      console.log(input);
-      execute.stdin.write(input + "\n");
+      try {
+        if (input != "") {
+          execute.stdin.write(input + "\n");
+        }
+      } catch (err) {
+        $("textarea#console").text("Excessive input");
+        return console.log("Excessive input");
+      }
       readline.createInterface({
         input: execute.stdout,
         terminal: false

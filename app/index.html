@@ -20,10 +20,8 @@
           <div id="problemRow" class="row">
             <div class="col-md-12">
               <h4>Problem <span id="problemNumber">1</span></h4>
-              <p>
-                Write a program that determines if a given number is even or odd.
-                Output "even" if the given number is even or "odd" if the given
-                number is odd.
+              <p id="problemStatement">
+
               </p>
             </div>
           </div>
@@ -53,15 +51,18 @@
       const fs = require("fs");
       const readline = require("readline");
       const spawn = require("child_process").spawn;
+      var editor = null;
+      var currentProblem = -1;
     </script>
     <script>window.$ = window.jQuery = require("./js/jquery-3.1.1.min.js");</script>
     <script src="js/bootstrap.js"></script>
     <script src="js/src-min-noconflict/ace.js"></script>
+    <script src="js/interfaceLoader.js"></script>
     <script src="js/historyWriter.js"></script>
     <script src="js/codeCompiler.js"></script>
     <script>
       $(document).ready(function() {
-        var editor = ace.edit("editor");
+        editor = ace.edit("editor");
         editor.setTheme("ace/theme/clouds");
         editor.session.setMode("ace/mode/c_cpp");
         editor.setFontSize(14);
@@ -75,13 +76,14 @@
         });
 
         $(".submitButton").on("click", function() {
-          writeHistoryToFile();
+          loadProblem(currentProblem + 1);
         });
 
         $(".runButton").on("click", function() {
           runCode(editor.getSession().getDocument());
         });
 
+        loadProblem(0);
         startSession();
       });
     </script>

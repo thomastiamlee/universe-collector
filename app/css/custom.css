@@ -16,3 +16,7 @@ button.controlButton {
   margin-right: 20px;
   margin-top: 20px;
 }
+
+span.green {
+  color: green;
+}
