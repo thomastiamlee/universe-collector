@@ -1,5 +1,3 @@
-var fs = require("fs");
-
 var startTime = null;
 historyItems = new Array();
 

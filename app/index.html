@@ -35,7 +35,7 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <button class="btn btn-default controlButton ">Test Run</button>
+              <button class="btn btn-default controlButton runButton">Test Run</button>
               <button class="btn btn-default controlButton submitButton">Submit Code</button>
             </div>
           </div>
@@ -49,15 +49,21 @@
       </div>
     </div>
 
+    <script>
+      const fs = require("fs");
+      const readline = require("readline");
+      const spawn = require("child_process").spawn;
+    </script>
     <script>window.$ = window.jQuery = require("./js/jquery-3.1.1.min.js");</script>
     <script src="js/bootstrap.js"></script>
     <script src="js/src-min-noconflict/ace.js"></script>
     <script src="js/historyWriter.js"></script>
+    <script src="js/codeCompiler.js"></script>
     <script>
       $(document).ready(function() {
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/clouds");
-        editor.session.setMode("ace/mode/java");
+        editor.session.setMode("ace/mode/c_cpp");
         editor.setFontSize(14);
         editor.on("change", function(data) {
           logEvent("changeDocument", data);
@@ -70,6 +76,10 @@
 
         $(".submitButton").on("click", function() {
           writeHistoryToFile();
+        });
+
+        $(".runButton").on("click", function() {
+          runCode(editor.getSession().getDocument());
         });
 
         startSession();
