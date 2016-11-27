@@ -35,6 +35,7 @@
             <div class="col-md-12">
               <button class="btn btn-default controlButton runButton">Test Run</button>
               <button class="btn btn-default controlButton submitButton">Submit Code</button>
+              <img id="loader" src="hourglass.gif" />
             </div>
           </div>
         </div>
@@ -82,6 +83,8 @@
     <script>
       const fs = require("fs");
       const readline = require("readline");
+      const async = require("async");
+      const timer = require('intelli-timer');
       const spawn = require("child_process").spawn;
       const spawnSync = require("child_process").spawnSync;
       const ipcRenderer = require("electron").ipcRenderer;

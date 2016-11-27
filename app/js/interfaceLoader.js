@@ -1,3 +1,4 @@
+var freezed = false;
 
 function loadProblem(problemIndex) {
   $.getJSON("../problems.json", function(json) {
@@ -14,5 +15,18 @@ function loadProblem(problemIndex) {
     $("textArea#console").text("");
     editor.getSession().getDocument().setValue("");
   });
+}
 
+function freeze() {
+  freezed = true;
+  $(".submitButton").prop("disabled", true);
+  $(".runButton").prop("disabled", true);
+  $("img#loader").css("display", "inline");
+}
+
+function unfreeze() {
+  freezed = true;
+  $(".submitButton").prop("disabled", false);
+  $(".runButton").prop("disabled", false);
+  $("img#loader").css("display", "none");
 }

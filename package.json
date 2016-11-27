@@ -4,5 +4,10 @@
   "main": "./main.js",
   "devDependencies": {
     "electron-prebuilt": "^0.30.8"
+  },
+  "dependencies": {
+    "async": "^2.1.4",
+    "intelli-timer": "^1.1.2",
+    "sleep": "^5.0.0"
   }
 }

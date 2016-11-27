@@ -20,3 +20,11 @@ button.controlButton {
 span.green {
   color: green;
 }
+
+img#loader {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  top: 10px;
+  display: none;
+}
