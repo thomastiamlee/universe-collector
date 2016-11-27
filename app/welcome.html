@@ -44,7 +44,7 @@
             alert("ID number already exists. Please delete the old directory if you wish to override the old data.");
             return;
           }
-          //ipcRenderer.send("details-submitted", data);
+          ipcRenderer.send("details-submitted", data);
         });
       });
     </script>
