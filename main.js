@@ -37,6 +37,10 @@ app.on('ready', function() {
     mainWindow.show();
   });
 
+  ipcMain.on("session-complete", function(event, data) {
+    mainWindow.close();
+  });
+
   /*mainWindow.once("ready-to-show", function() {
     mainWindow.show();
   });*/

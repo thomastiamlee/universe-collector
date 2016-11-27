@@ -51,7 +51,6 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title"></h4>
           </div>
           <div class="modal-body">
@@ -59,6 +58,22 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default closeButton">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+    <div id="finishedModal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Thank you!</h4>
+          </div>
+          <div class="modal-body">
+            <p>Thank you for participating in this data collection. The program will exit now.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default finishedButton">Finished</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -109,6 +124,11 @@
 
         $(".runButton").on("click", function() {
           runCode(editor.getSession().getDocument());
+        });
+
+        $(".finishedButton").on("click", function() {
+          $("#finishedModal").modal("hide");
+          ipcRenderer.send("session-complete", "true");
         });
 
         loadProblem(0);

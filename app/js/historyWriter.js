@@ -16,7 +16,7 @@ function logEvent(type, eventData) {
 
 function writeHistoryToFile() {
   var serialized = JSON.stringify(historyItems);
-  fs.writeFile(__dirname + "/../history.txt", serialized, function(err) {
+  fs.writeFile(__dirname + "/../data/" + idNumber + ".txt", serialized, function(err) {
     if (err) {
       return console.log(err);
     }

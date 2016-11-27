@@ -16,6 +16,9 @@ function runCode(doc) {
 
     gcc.on("close", function(code) {
       if (code != 0) {
+        logEvent("code compiled", {
+          verdict: "compile error"
+        });
         $("textarea#console").text("Error in compilation");
         return console.log("Error in compilation");
       }
@@ -25,6 +28,9 @@ function runCode(doc) {
           execute.stdin.write(input + "\n");
         }
       } catch (err) {
+        logEvent("code compiled", {
+          verdict: "excessive input"
+        });
         $("textarea#console").text("Excessive input");
         return console.log("Excessive input");
       }
@@ -36,8 +42,16 @@ function runCode(doc) {
       });
       execute.on("close", function(code) {
         if (code != 0) {
+          logEvent("code compiled", {
+            verdict: "runtime error"
+          });
           $("textarea#console").text("Runtime error");
           return console.log("Runtime error");
+        }
+        else {
+          logEvent("code compiled", {
+            verdict: "no error"
+          });
         }
       });
     });
@@ -79,20 +93,30 @@ function runTests(doc) {
         }
       }
       if (verdict == true) {
+        $("#modal .closeButton").unbind("click");
         $("#modal .modal-title").text("Correct!");
         $("#modal .modal-body p").text("Your code has passed all the test cases. You may move on to the next problem.");
+        logEvent("code submitted", {
+          verdict: "passed"
+        });
         $("#modal").modal("show");
         $("#modal .closeButton").click(function() {
+          $("#modal .closeButton").unbind("click");
           loadProblem(currentProblem + 1);
           $("#modal").modal("hide");
         });
 
       }
       else if (verdict == false) {
+        $("#modal .closeButton").unbind("click");
         $("#modal .modal-title").text("Wrong!");
         $("#modal .modal-body p").text("Your code failed in at least one of the test cases. Please try again.");
+        logEvent("code submitted", {
+          verdict: "failed"
+        });
         $("#modal").modal("show");
         $("#modal .closeButton").click(function() {
+          $("#modal .closeButton").unbind("click");
           $("#modal").modal("hide");
         });
       }
