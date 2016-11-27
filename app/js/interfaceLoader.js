@@ -4,6 +4,7 @@ function loadProblem(problemIndex) {
   $.getJSON("../problems.json", function(json) {
     if (problemIndex >= json.length) {
       writeHistoryToFile();
+      writeVideoToFile();
       $("#finishedModal").modal("show");
       return;
     }

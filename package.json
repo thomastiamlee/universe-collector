@@ -8,6 +8,7 @@
   "dependencies": {
     "async": "^2.1.4",
     "intelli-timer": "^1.1.2",
+    "recordrtc": "^5.4.0",
     "sleep": "^5.0.0"
   }
 }

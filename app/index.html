@@ -80,6 +80,8 @@
       </div><!-- /.modal-dialog -->
     </div>
 
+    <video id="test" autoplay></video>
+
     <script>
       const fs = require("fs");
       const readline = require("readline");
@@ -88,11 +90,13 @@
       const spawn = require("child_process").spawn;
       const spawnSync = require("child_process").spawnSync;
       const ipcRenderer = require("electron").ipcRenderer;
+      const RecordRTC = require('recordrtc');
       var editor = null;
       var problem = null;
       var currentProblem = -1;
       var idNumber = null;
       var name = null;
+      var recorder = null;
     </script>
     <script>window.$ = window.jQuery = require("./js/jquery-3.1.1.min.js");</script>
     <script src="js/bootstrap.js"></script>
@@ -100,11 +104,15 @@
     <script src="js/interfaceLoader.js"></script>
     <script src="js/historyWriter.js"></script>
     <script src="js/codeCompiler.js"></script>
+    <script src="js/videoRecorder.js"></script>
     <script>
       ipcRenderer.on("create-details", function(event, data) {
         idNumber = data.idNumber;
         name = data.name;
         document.title = data.idNumber + " - " + data.name;
+
+        loadProblem(0);
+        initializeRecorder();
       });
 
       $(document).ready(function() {
@@ -133,9 +141,6 @@
           $("#finishedModal").modal("hide");
           ipcRenderer.send("session-complete", "true");
         });
-
-        loadProblem(0);
-        startSession();
       });
     </script>
   </body>
