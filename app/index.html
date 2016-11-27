@@ -69,9 +69,12 @@
       const readline = require("readline");
       const spawn = require("child_process").spawn;
       const spawnSync = require("child_process").spawnSync;
+      const ipcRenderer = require("electron").ipcRenderer;
       var editor = null;
       var problem = null;
       var currentProblem = -1;
+      var idNumber = null;
+      var name = null;
     </script>
     <script>window.$ = window.jQuery = require("./js/jquery-3.1.1.min.js");</script>
     <script src="js/bootstrap.js"></script>
@@ -80,6 +83,12 @@
     <script src="js/historyWriter.js"></script>
     <script src="js/codeCompiler.js"></script>
     <script>
+      ipcRenderer.on("create-details", function(event, data) {
+        idNumber = data.idNumber;
+        name = data.name;
+        document.title = data.idNumber + " - " + data.name;
+      });
+
       $(document).ready(function() {
         editor = ace.edit("editor");
         editor.setTheme("ace/theme/clouds");

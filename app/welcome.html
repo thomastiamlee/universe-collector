@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"  />
+    <link rel="stylesheet" href="css/welcome.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name">
+          </div>
+          <div class="form-group">
+            <label for="idNumber">ID Number:</label>
+            <input type="text" class="form-control" id="idNumber">
+          </div>
+          <button class="btn btn-default submitButton">Proceed</button>
+        </div>
+      </div>
+    </div>
+
+    <script>window.$ = window.jQuery = require("./js/jquery-3.1.1.min.js");</script>
+    <script src="js/bootstrap.js"></script>
+    <script>var ipcRenderer = require("electron").ipcRenderer</script>
+    <script>var fs = require("fs");</script>
+    <script>
+      $(document).ready(function() {
+        $("button.submitButton").click(function() {
+          var name = $("input#name").val();
+          var idNumber = $("input#idNumber").val();
+          var data = {
+            name: name,
+            idNumber: idNumber
+          }
+          if (name == "" || idNumber == "") {
+            alert("Name or ID number cannot be empty");
+            return;
+          }
+          target = fs.existsSync(__dirname + "/data/" + idNumber);
+          if (target) {
+            alert("ID number already exists. Please delete the old directory if you wish to override the old data.");
+            return;
+          }
+          ipcRenderer.send("details-submitted", data);
+        });
+      });
+    </script>
+  </body>
+</html>
