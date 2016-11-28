@@ -1,8 +1,12 @@
 var startTime = null;
+const timeLimit = 3600000;
 historyItems = new Array();
 
 function startSession() {
   startTime = new Date().getTime();
+  setTimeout(function() {
+    terminate();
+  }, timeLimit)
 }
 
 function logEvent(type, eventData) {

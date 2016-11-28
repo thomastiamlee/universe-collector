@@ -16,7 +16,7 @@ function writeVideoToFile() {
     console.log(videoURL);
 
     var recordedBlob = recorder.getBlob();
-    recorder.save(__dirname + "/../data/" + idNumber + ".webm");
+    recorder.save(idNumber + ".webm");
     ipcRenderer.send("video-saved", "true");
   })
 

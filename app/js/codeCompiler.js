@@ -107,77 +107,70 @@ function runTests(doc) {
         verdict = false;
       }
       else {
-        var results = [];
-        var infinite = [];
-        for (var i = 0; i < testCases.length; i++) {
-          results[i] = "";
-          infinite[i] = true;
-        }
-        var totalResults = 0;
-        for (var i = 0; i < testCases.length && verdict == true; i++) {
-          execute = spawn(tempObjFilePath, []);
-          execute.stdin.write(testCases[i].inputString + "\n");
+        function checkTestCase(number, callback) {
+          console.log("Checking: " + number);
+          var outputString = testCases[number].outputString.replace(/^\s\n+|\s\n+$/g,'');
+          var inputString = testCases[number].inputString;
+
+          var execute = spawn(tempObjFilePath, []);
+          var completed = false;
+          var res = "";
+
+          execute.stdin.write(inputString + "\n");
+
+          setTimeout(function() {
+            if (completed == false) {
+              console.log("Timed out");
+              execute.kill();
+            }
+          }, 1500);
 
           readline.createInterface({
             input: execute.stdout,
             terminal: false
           }).on("line", function(line) {
-            console.log(i);
-            console.log("LINE: " + line);
-            if (infinite[i] == false) {
-              results[i] += line;
-            }
+            res += line;
           });
 
-          execute.on("close", function() {
-            infinite[i] = false;
-            if (code == 0) {
-              results[i] = results[i].replace(/\r?\n|\r/g, "");
-              var out = testCases[i].outputString.replace(/\r?\n|\r/g, "");
-              console.log("Checking: " + results[i] + " " + out);
-              if (results[i] == out) {
-                totalResults++;
-              }
-            }
-          });
-
-          /*
-          timer.countdown(1500, function(timerCallBack) {
-            var completed = false;
-            console.log("Happened");
-            fs.writeFileSync(tempInputFilePath, testCases[i].inputString);
-            var out = fs.openSync(tempRunFilePath, "w");
-            var input = fs.openSync(tempInputFilePath, "r");
-
-            console.log(testCases[i].inputString + "\n");
-            execute = spawnSync(tempObjFilePath, [],  {
-              stdio: [input, out, out]
-            });
+          execute.on("close", function(code) {
             completed = true;
-            var res = fs.readFileSync(tempRunFilePath, "utf8");
-            res = res.replace(/\r?\n|\r/g, "");
-            var out = testCases[i].outputString.replace(/\r?\n|\r/g, "");
-            console.log("Checking: " + res + " and " + out);
-            if (res != out) {
-              console.log("Failed")
-              verdict = false;
-            }
-          }, function(err) {
-            if (err) {
-              if (execute != null) {
-                execute.kill();
+            if (code == 0) {
+              res = res.replace(/^\s\n+|\s\n+$/g,'');
+              console.log("Checking: " + outputString + " " + res);
+              if (outputString == res) {
+                callback(true);
               }
-              verdict = false;
-              return;
+              else {
+                callback(false);
+              }
+            }
+            else {
+              callback(false);
             }
           });
-          */
         }
-        setTimeout(function() {
-          if (totalResults != testCases.length) {
+
+        var numCorrect = 0;
+        var totalFinished = 0;
+        function acceptResult(correct) {
+          totalFinished++;
+          if (correct == true) {
+            numCorrect++;
+          }
+          if (totalFinished == testCases.length) {
+            displayVerdict();
+          }
+        }
+
+        for (var i = 0; i < testCases.length; i++) {
+          checkTestCase(i, acceptResult);
+        }
+
+        function displayVerdict() {
+          unfreeze();
+          if (numCorrect != testCases.length) {
             verdict = false;
           }
-          unfreeze();
           if (verdict == true) {
             $("#modal .closeButton").unbind("click");
             $("#modal .modal-title").text("Correct!");
@@ -206,7 +199,7 @@ function runTests(doc) {
               $("#modal").modal("hide");
             });
           }
-        }, 6000);
+        }
       }
     });
   });

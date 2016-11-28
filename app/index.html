@@ -71,16 +71,11 @@
             <h4 class="modal-title">Thank you!</h4>
           </div>
           <div class="modal-body">
-            <p>Thank you for participating in this data collection. The program will exit now.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default finishedButton">Finished</button>
+            <p>Thank you for participating in this data collection. Please call the attention of the facilitator.</p>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div>
-
-    <video id="test" autoplay></video>
 
     <script>
       const fs = require("fs");
@@ -137,10 +132,6 @@
           runCode(editor.getSession().getDocument());
         });
 
-        $(".finishedButton").on("click", function() {
-          $("#finishedModal").modal("hide");
-          ipcRenderer.send("session-complete", "true");
-        });
       });
     </script>
   </body>

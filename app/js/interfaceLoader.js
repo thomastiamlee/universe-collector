@@ -3,9 +3,7 @@ var freezed = false;
 function loadProblem(problemIndex) {
   $.getJSON("../problems.json", function(json) {
     if (problemIndex >= json.length) {
-      writeHistoryToFile();
-      writeVideoToFile();
-      $("#finishedModal").modal("show");
+      terminate();
       return;
     }
     problem = json[problemIndex];
@@ -30,4 +28,10 @@ function unfreeze() {
   $(".submitButton").prop("disabled", false);
   $(".runButton").prop("disabled", false);
   $("img#loader").css("display", "none");
+}
+
+function terminate() {
+  writeHistoryToFile();
+  writeVideoToFile();
+  $("#finishedModal").modal("show");
 }
