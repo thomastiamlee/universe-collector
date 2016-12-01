@@ -1,23 +1,15 @@
 [
   {
-    "problemStatement" : "Write a program that determines if a given number is even or odd. Output <span class=\"green\">even</span> if the given number is even or <span class=\"green\">odd</span> if the given number is odd.",
+    "problemStatement" : "Write a program that displays <span class=\"green\">Hello World</span> on the screen.",
     "testCases" : [
       {
-        "inputString" : "4",
-        "outputString" : "even"
-      },
-      {
-        "inputString" : "9",
-        "outputString" : "odd"
-      },
-      {
-        "inputString" : "19",
-        "outputString" : "odd"
+        "inputString" : "",
+        "outputString" : "Hello World"
       }
     ]
   },
   {
-    "problemStatement" : "Write a program that determines if a given number is prime or not. Output <span class=\"green\">prime</span> if the given number is prime or <span class=\"green\">not prime</span> if the given number is not prime.",
+    "problemStatement" : "Write a program that accepts one integer. The program should display <span class=\"green\">even</span> if it is even or <span class=\"green\">odd</span> if it is odd.",
     "testCases" : [
       {
         "inputString" : "4",

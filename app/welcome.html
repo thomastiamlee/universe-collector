@@ -10,14 +10,11 @@
       <div class="row">
         <div class="col-md-12">
           <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name">
-          </div>
-          <div class="form-group">
             <label for="idNumber">ID Number:</label>
             <input type="text" class="form-control" id="idNumber">
           </div>
-          <button class="btn btn-default submitButton">Proceed</button>
+          <button class="btn btn-default submitButton">Collect</button>
+          <button class="btn btn-default annotateButton">Annotate</button>
         </div>
       </div>
     </div>
@@ -29,14 +26,12 @@
     <script>
       $(document).ready(function() {
         $("button.submitButton").click(function() {
-          var name = $("input#name").val();
           var idNumber = $("input#idNumber").val();
           var data = {
-            name: name,
             idNumber: idNumber
           }
-          if (name == "" || idNumber == "") {
-            alert("Name or ID number cannot be empty");
+          if (idNumber == "") {
+            alert("ID number cannot be empty");
             return;
           }
           target = fs.existsSync(__dirname + "/../data/" + idNumber + ".txt");
@@ -45,6 +40,22 @@
             return;
           }
           ipcRenderer.send("details-submitted", data);
+        });
+        $("button.annotateButton").click(function() {
+          var idNumber = $("input#idNumber").val();
+          var data = {
+            idNumber: idNumber
+          }
+          if (idNumber == "") {
+            alert("ID number cannot be empty");
+            return;
+          }
+          target = fs.existsSync(__dirname + "/../data/" + idNumber + ".txt");
+          if (target == false) {
+            alert("No data for this ID number yet.");
+            return;
+          }
+          ipcRenderer.send("annotation-ready", data);
         });
       });
     </script>

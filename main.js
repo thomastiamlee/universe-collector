@@ -7,6 +7,7 @@ const path = require('path');
 
 var mainWindow = null;
 var welcomeWindow = null;
+var annotationWindow = null;
 
 app.on('ready', function() {
   welcomeWindow = new BrowserWindow({
@@ -22,10 +23,17 @@ app.on('ready', function() {
     resizable: false,
     show: false,
   });
+
+  annotationWindow = new BrowserWindow({
+    width: 1024,
+    height: 700,
+    resizable: false,
+    show: false
+  });
   mainWindow.openDevTools();
   mainWindow.setMenu(null);
-  welcomeWindow.openDevTools();
   welcomeWindow.setMenu(null);
+  annotationWindow.setMenu(null);
 
   welcomeWindow.once("ready-to-show", function() {
     welcomeWindow.show();
@@ -35,6 +43,13 @@ app.on('ready', function() {
     welcomeWindow.close();
     mainWindow.webContents.send("create-details", data);
     mainWindow.show();
+  });
+
+  ipcMain.on("annotation-ready", function(event, data) {
+    welcomeWindow.close();
+    annotationWindow.webContents.send("create-details", data);
+    annotationWindow.show();
+    annotationWindow.openDevTools();
   });
 
   ipcMain.on("session-complete", function(event, data) {
@@ -47,4 +62,5 @@ app.on('ready', function() {
 
   welcomeWindow.loadURL('file://' + __dirname + '/app/welcome.html');
   mainWindow.loadURL('file://' + __dirname + '/app/index.html');
+  annotationWindow.loadURL('file://' + __dirname + '/app/annotate.html');
 });

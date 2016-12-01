@@ -90,7 +90,6 @@
       var problem = null;
       var currentProblem = -1;
       var idNumber = null;
-      var name = null;
       var recorder = null;
     </script>
     <script>window.$ = window.jQuery = require("./js/jquery-3.1.1.min.js");</script>
@@ -103,8 +102,7 @@
     <script>
       ipcRenderer.on("create-details", function(event, data) {
         idNumber = data.idNumber;
-        name = data.name;
-        document.title = data.idNumber + " - " + data.name;
+        document.title = data.idNumber;
 
         loadProblem(0);
         initializeRecorder();

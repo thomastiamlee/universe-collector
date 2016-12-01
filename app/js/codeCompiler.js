@@ -32,6 +32,7 @@ function runCode(doc) {
           verdict: "compile error"
         });
         $("textarea#console").text("Error in compilation");
+        unfreeze();
         return console.log("Error in compilation");
       }
       var execute = spawn(tempObjFilePath, []);
