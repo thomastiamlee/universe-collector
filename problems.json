@@ -9,19 +9,40 @@
     ]
   },
   {
-    "problemStatement" : "Write a program that accepts one integer. The program should display <span class=\"green\">even</span> if it is even or <span class=\"green\">odd</span> if it is odd.",
+    "problemStatement" : "Write a program that accepts one positive integer. The program should display <span class=\"green\">even</span> if it is even or <span class=\"green\">odd</span> if it is odd.",
     "testCases" : [
       {
-        "inputString" : "4",
-        "outputString" : "not prime"
+        "inputString" : "201",
+        "outputString" : "odd"
       },
       {
-        "inputString" : "13",
-        "outputString" : "prime"
+        "inputString" : "202",
+        "outputString" : "even"
       },
       {
-        "inputString" : "19",
-        "outputString" : "prime"
+        "inputString" : "203",
+        "outputString" : "odd"
+      },
+      {
+        "inputString" : "204",
+        "outputString" : "even"
+      },
+      {
+        "inputString" : "205",
+        "outputString" : "odd"
+      },
+      {
+        "inputString" : "206",
+        "outputString" : "even"
+      }
+    ]
+  },
+  {
+    "problemStatement" : "Write a program that accepts ",
+    "testCases" : [
+      {
+        "inputString" : "",
+        "outputString" : "Hello World"
       }
     ]
   }
