@@ -30,7 +30,7 @@ app.on('ready', function() {
     resizable: false,
     show: false
   });
-  mainWindow.openDevTools();
+  //mainWindow.openDevTools();
   mainWindow.setMenu(null);
   welcomeWindow.setMenu(null);
   annotationWindow.setMenu(null);

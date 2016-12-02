@@ -14,7 +14,7 @@ function loadProblem(problemIndex) {
       $("p#sampleInput").html("(no input)");
     }
     else {
-      $("p#sampleOutput").html(problem.sampleInput);
+      $("p#sampleInput").html(problem.sampleInput);
     }
     $("p#sampleOutput").html(problem.sampleOutput);
     $("ul#constraints").html("");

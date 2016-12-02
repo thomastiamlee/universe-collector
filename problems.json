@@ -127,11 +127,11 @@
       },
       {
         "inputString" : "5 60 70 60 60 55",
-        "outputString" : "261.00"
+        "outputString" : "61.00"
       },
       {
         "inputString" : "2 90 90",
-        "outputString" : "90.0"
+        "outputString" : "90.00"
       },
       {
         "inputString" : "3 85.5 95.5 75.75",
@@ -167,7 +167,7 @@
       },
       {
         "inputString" : "377",
-        "outputString" : "prime"
+        "outputString" : "not prime"
       },
       {
         "inputString" : "1",
