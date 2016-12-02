@@ -1,6 +1,9 @@
 [
   {
     "problemStatement" : "Write a program that displays <span class=\"green\">Hello World</span> on the screen.",
+    "sampleInput": "",
+    "sampleOutput": "Hello World",
+    "constraints": [],
     "testCases" : [
       {
         "inputString" : "",
@@ -9,90 +12,203 @@
     ]
   },
   {
-    "problemStatement" : "Write a program that accepts the price of the item and the amount given (in that order). The program should display the change to be given to the customer. Assume all amounts are whole numbers, and make sure the change is displayed as an integer. If the amount given is insufficient, display <span class=\"green\">error</span>.",
+    "problemStatement" : "Write a program that gets the price of the item, followed by the amount given by the customer. Display the change.",
+    "sampleInput": "90 100",
+    "sampleOutput": "10",
+    "constraints": ["Assume the price and the amount given are both integers.", "Make sure the output does not contain decimal values.", "Assume the amount given is always enough to pay for the item."],
     "testCases" : [
       {
-        "inputString" : "50 60",
+        "inputString" : "90 100",
         "outputString" : "10"
+      },
+      {
+        "inputString" : "15 50",
+        "outputString" : "35"
       },
       {
         "inputString" : "60 100",
         "outputString" : "40"
       },
       {
-        "inputString" : "20 1000",
-        "outputString" : "800"
+        "inputString" : "1 5",
+        "outputString" : "4"
       },
       {
-        "inputString" : "12 15",
-        "outputString" : "3"
-      },
-      {
-        "inputString" : "20 20",
+        "inputString" : "10 10",
         "outputString" : "0"
       },
       {
-        "inputString" : "20 15",
-        "outputString" : "error"
+        "inputString" : "9999 10000",
+        "outputString" : "1"
       }
     ]
   },
   {
-    "problemStatement" : "Write a program that accepts one positive integer. The program should display <span class=\"green\">even</span> if it is even or <span class=\"green\">odd</span> if it is odd.",
+    "problemStatement" : "Write a program that gets the score of a student. If the student passed, display <span class=\"green\">pass</span>. Display <span class=\"green\">fail</span> otherwise.",
+    "sampleInput": "90",
+    "sampleOutput": "pass",
+    "constraints": ["Assume the score is an value from 1 to 100.", "It is possible that the score is NOT a whole number (e.g., 90.5).", "Assume that the passing grade is 60."],
     "testCases" : [
       {
-        "inputString" : "201",
-        "outputString" : "odd"
+        "inputString" : "90",
+        "outputString" : "pass"
       },
       {
-        "inputString" : "202",
-        "outputString" : "even"
+        "inputString" : "40",
+        "outputString" : "fail"
       },
       {
-        "inputString" : "203",
-        "outputString" : "odd"
+        "inputString" : "60",
+        "outputString" : "pass"
       },
       {
-        "inputString" : "204",
-        "outputString" : "even"
+        "inputString" : "60.1",
+        "outputString" : "pass"
       },
       {
-        "inputString" : "205",
-        "outputString" : "odd"
+        "inputString" : "59.9",
+        "outputString" : "fail"
       },
       {
-        "inputString" : "206",
-        "outputString" : "even"
+        "inputString" : "0",
+        "outputString" : "fail"
       }
     ]
   },
   {
-    "problemStatement" : "Write a program that accepts a",
+    "problemStatement" : "Write a program that asks for the total price of items bought in a store. If the total price is at least 500 but less than 1000, the customer gets a 5% discount. If the total price is at least 1000, the customer gets a 10% discount. Display the amount due to the customer, rounded up to two decimal places.",
+    "sampleInput": "2000",
+    "sampleOutput": "1800.00",
+    "constraints": ["Assume the total price is a positive number", "It is possible that the total price is NOT a whole number (e.g., 250.50)."],
     "testCases" : [
       {
-        "inputString" : "201",
-        "outputString" : "odd"
+        "inputString" : "2000",
+        "outputString" : "1800.00"
       },
       {
-        "inputString" : "202",
-        "outputString" : "even"
+        "inputString" : "100",
+        "outputString" : "100.00"
       },
       {
-        "inputString" : "203",
-        "outputString" : "odd"
+        "inputString" : "90.75",
+        "outputString" : "90.75"
       },
       {
-        "inputString" : "204",
-        "outputString" : "even"
+        "inputString" : "500",
+        "outputString" : "475.00"
       },
       {
-        "inputString" : "205",
-        "outputString" : "odd"
+        "inputString" : "1000",
+        "outputString" : "900.00"
       },
       {
-        "inputString" : "206",
-        "outputString" : "even"
+        "inputString" : "1750",
+        "outputString" : "1575.00"
       }
     ]
   },
+  {
+    "problemStatement" : "Write a program that accepts the number of scores, followed by the individual scores. The program should display the average score, rounded up to two decimal places.",
+    "sampleInput": "3 70 75 80",
+    "sampleOutput": "75.00",
+    "constraints": ["Assume the scores range from 1 to 100.", "The scores may NOT be a whole number (e.g., 90.5).", "There is always at least one score."],
+    "testCases" : [
+      {
+        "inputString" : "3 70 75 80",
+        "outputString" : "75.00"
+      },
+      {
+        "inputString" : "1 80",
+        "outputString" : "80.00"
+      },
+      {
+        "inputString" : "6 70 75 85 94 40 85",
+        "outputString" : "74.83"
+      },
+      {
+        "inputString" : "5 60 70 60 60 55",
+        "outputString" : "261.00"
+      },
+      {
+        "inputString" : "2 90 90",
+        "outputString" : "90.0"
+      },
+      {
+        "inputString" : "3 85.5 95.5 75.75",
+        "outputString" : "85.58"
+      }
+    ]
+  },
+  {
+    "problemStatement" : "Write a program that displays <span class=\"green\">prime</span> if the given number is prime and <span class=\"green\">not prime</span> if it is not. A prime number is a number that is only divisible by 1 and itself.",
+    "sampleInput": "17",
+    "sampleOutput": "prime",
+    "constraints": ["Assume the given number is a positive integer not greater than 500.", "1 is a special number - it is automatially not prime."],
+    "testCases" : [
+      {
+        "inputString" : "17",
+        "outputString" : "prime"
+      },
+      {
+        "inputString" : "40",
+        "outputString" : "not prime"
+      },
+      {
+        "inputString" : "185",
+        "outputString" : "not prime"
+      },
+      {
+        "inputString" : "169",
+        "outputString" : "not prime"
+      },
+      {
+        "inputString" : "211",
+        "outputString" : "prime"
+      },
+      {
+        "inputString" : "377",
+        "outputString" : "prime"
+      },
+      {
+        "inputString" : "1",
+        "outputString" : "not prime"
+      }
+    ]
+  },
+  {
+    "problemStatement" : "Write a program that displays the sum of all the even digits of a given number.",
+    "sampleInput": "16432",
+    "sampleOutput": "12",
+    "constraints": ["The given number will not exceed 7 digits."],
+    "testCases" : [
+      {
+        "inputString" : "16432",
+        "outputString" : "12"
+      },
+      {
+        "inputString" : "1114",
+        "outputString" : "4"
+      },
+      {
+        "inputString" : "2462",
+        "outputString" : "14"
+      },
+      {
+        "inputString" : "13371",
+        "outputString" : "0"
+      },
+      {
+        "inputString" : "1234567",
+        "outputString" : "12"
+      },
+      {
+        "inputString" : "66632",
+        "outputString" : "20"
+      },
+      {
+        "inputString" : "8888888",
+        "outputString" : "56"
+      }
+    ]
+  }
 ]
