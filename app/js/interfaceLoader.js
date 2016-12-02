@@ -10,6 +10,25 @@ function loadProblem(problemIndex) {
     currentProblem = problemIndex;
     $("span#problemNumber").text(currentProblem + 1);
     $("p#problemStatement").html(problem.problemStatement);
+    if (problem.sampleInput == "") {
+      $("p#sampleInput").html("(no input)");
+    }
+    else {
+      $("p#sampleOutput").html(problem.sampleInput);
+    }
+    $("p#sampleOutput").html(problem.sampleOutput);
+    $("ul#constraints").html("");
+    console.log(problem.constraints);
+    var builder = "";
+    for (var i = 0; i < problem.constraints.length; i++) {
+      builder += "<li>" + problem.constraints[i] + "</li>";
+    }
+    if (builder == "") {
+      $("ul#constraints").append("<li>(none)</li>");
+    }
+    else {
+      $("ul#constraints").append(builder);
+    }
     $("input#inputField").val("");
     $("textArea#console").text("");
     editor.getSession().getDocument().setValue("");

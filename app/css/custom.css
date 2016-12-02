@@ -28,3 +28,7 @@ img#loader {
   top: 10px;
   display: none;
 }
+
+h5.problemSubHeader {
+  color: green;
+}
