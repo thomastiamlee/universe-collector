@@ -83,7 +83,6 @@
       const spawn = require("child_process").spawn;
       const spawnSync = require("child_process").spawnSync;
       const ipcRenderer = require("electron").ipcRenderer;
-      const RecordRTC = require('recordrtc');
       var editor = null;
       var problem = null;
       var currentProblem = -1;
@@ -103,13 +102,13 @@
         document.title = data.idNumber;
 
         loadProblem(0);
-        initializeRecorder();
+        //initializeRecorder();
       });
 
       $(document).ready(function() {
         editor = ace.edit("editor");
         editor.setTheme("ace/theme/clouds");
-        editor.session.setMode("ace/mode/c_cpp");
+        editor.session.setMode("ace/mode/java");
         editor.setFontSize(14);
         editor.on("change", function(data) {
           logEvent("changeDocument", data);

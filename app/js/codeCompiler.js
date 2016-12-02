@@ -1,5 +1,5 @@
-const tempSourceFilePath = __dirname + "/../temp/temp.c";
-const tempObjFilePath = __dirname + "/../temp/temp.out";
+const tempSourceFilePath = __dirname + "/../temp/Main.java";
+const tempObjFilePath = __dirname + "/../temp";
 const tempInputFilePath = __dirname + "/../temp/input.txt";
 const tempRunFilePath = __dirname + "/../temp/res.txt";
 
@@ -23,7 +23,8 @@ function runCode(doc) {
       return console.log(err);
     }
 
-    var gcc = spawn("gcc", [tempSourceFilePath, "-o", tempObjFilePath]);
+    //var gcc = spawn("gcc", [tempSourceFilePath, "-o", tempObjFilePath]);
+    var gcc = spawn("javac", [tempSourceFilePath]);
 
     gcc.on("close", function(code) {
       completed = true;
@@ -35,7 +36,9 @@ function runCode(doc) {
         unfreeze();
         return console.log("Error in compilation");
       }
-      var execute = spawn(tempObjFilePath, []);
+      //var execute = spawn(tempObjFilePath, []);
+      var execute = spawn("java", ["-cp", tempObjFilePath, "Main"]);
+
       var completed = false;
       var infinite = false;
       setTimeout(function() {
@@ -101,7 +104,9 @@ function runTests(doc) {
     if (err) {
       return console.log(err);
     }
-    var gcc = spawn("gcc", [tempSourceFilePath, "-o", tempObjFilePath]);
+    //var gcc = spawn("gcc", [tempSourceFilePath, "-o", tempObjFilePath]);
+    var gcc = spawn("javac", [tempSourceFilePath]);
+
     gcc.on("close", function(code) {
       var verdict = true;
       if (code != 0) {
@@ -113,7 +118,9 @@ function runTests(doc) {
           var outputString = testCases[number].outputString.replace(/^\s\n+|\s\n+$/g,'');
           var inputString = testCases[number].inputString;
 
-          var execute = spawn(tempObjFilePath, []);
+          //var execute = spawn(tempObjFilePath, []);
+          var execute = spawn("java", ["-cp", tempObjFilePath, "Main"]);
+
           var completed = false;
           var res = "";
 

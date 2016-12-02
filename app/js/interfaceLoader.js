@@ -32,6 +32,6 @@ function unfreeze() {
 
 function terminate() {
   writeHistoryToFile();
-  writeVideoToFile();
+  //writeVideoToFile();
   $("#finishedModal").modal("show");
 }

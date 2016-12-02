@@ -30,7 +30,7 @@ app.on('ready', function() {
     resizable: false,
     show: false
   });
-  mainWindow.openDevTools();
+  //mainWindow.openDevTools();
   mainWindow.setMenu(null);
   welcomeWindow.setMenu(null);
   annotationWindow.setMenu(null);
@@ -49,7 +49,7 @@ app.on('ready', function() {
     welcomeWindow.close();
     annotationWindow.webContents.send("create-details", data);
     annotationWindow.show();
-    annotationWindow.openDevTools();
+    //annotationWindow.openDevTools();
   });
 
   ipcMain.on("session-complete", function(event, data) {

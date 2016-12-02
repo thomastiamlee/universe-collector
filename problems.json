@@ -9,6 +9,35 @@
     ]
   },
   {
+    "problemStatement" : "Write a program that accepts the price of the item and the amount given (in that order). The program should display the change to be given to the customer. Assume all amounts are whole numbers, and make sure the change is displayed as an integer. If the amount given is insufficient, display <span class=\"green\">error</span>.",
+    "testCases" : [
+      {
+        "inputString" : "50 60",
+        "outputString" : "10"
+      },
+      {
+        "inputString" : "60 100",
+        "outputString" : "40"
+      },
+      {
+        "inputString" : "20 1000",
+        "outputString" : "800"
+      },
+      {
+        "inputString" : "12 15",
+        "outputString" : "3"
+      },
+      {
+        "inputString" : "20 20",
+        "outputString" : "0"
+      },
+      {
+        "inputString" : "20 15",
+        "outputString" : "error"
+      }
+    ]
+  },
+  {
     "problemStatement" : "Write a program that accepts one positive integer. The program should display <span class=\"green\">even</span> if it is even or <span class=\"green\">odd</span> if it is odd.",
     "testCases" : [
       {
@@ -38,12 +67,32 @@
     ]
   },
   {
-    "problemStatement" : "Write a program that accepts ",
+    "problemStatement" : "Write a program that accepts a",
     "testCases" : [
       {
-        "inputString" : "",
-        "outputString" : "Hello World"
+        "inputString" : "201",
+        "outputString" : "odd"
+      },
+      {
+        "inputString" : "202",
+        "outputString" : "even"
+      },
+      {
+        "inputString" : "203",
+        "outputString" : "odd"
+      },
+      {
+        "inputString" : "204",
+        "outputString" : "even"
+      },
+      {
+        "inputString" : "205",
+        "outputString" : "odd"
+      },
+      {
+        "inputString" : "206",
+        "outputString" : "even"
       }
     ]
-  }
+  },
 ]

@@ -1,5 +1,5 @@
 var startTime = null;
-const timeLimit = 3600000;
+const timeLimit = 2700000;
 historyItems = new Array();
 
 function startSession() {
