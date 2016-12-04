@@ -5,7 +5,6 @@ function initializeRecorder() {
   }, function(stream) {
     recorder = RecordRTC(stream, { type: 'video'});
     recorder.startRecording();
-    startSession();
   }, function(err) {
     console.log(err);
   });

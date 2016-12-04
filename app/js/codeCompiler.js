@@ -23,11 +23,18 @@ function runCode(doc) {
       return console.log(err);
     }
 
+    var compiled = false;
     //var gcc = spawn("gcc", [tempSourceFilePath, "-o", tempObjFilePath]);
     var gcc = spawn("javac", [tempSourceFilePath]);
 
+    setTimeout(function() {
+      if (compiled == false) {
+        gcc.kill();
+      }
+    }, 2000);
+
     gcc.on("close", function(code) {
-      completed = true;
+      compiled = true;
       if (code != 0) {
         logEvent("code compiled", {
           verdict: "compile error"
@@ -102,12 +109,21 @@ function runTests(doc) {
 
   fs.writeFile(tempSourceFilePath, content, function(err) {
     if (err) {
+      unfreeze();
       return console.log(err);
     }
     //var gcc = spawn("gcc", [tempSourceFilePath, "-o", tempObjFilePath]);
     var gcc = spawn("javac", [tempSourceFilePath]);
+    var compiled = false;
+
+    setTimeout(function() {
+      if (compiled == false) {
+        gcc.kill();
+      }
+    }, 2000);
 
     gcc.on("close", function(code) {
+      compiled = true;
       var verdict = true;
       if (code != 0) {
         verdict = false;

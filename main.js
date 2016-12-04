@@ -35,21 +35,33 @@ app.on('ready', function() {
   welcomeWindow.setMenu(null);
   annotationWindow.setMenu(null);
 
+  mainWindow.on("close", function() {
+    app.quit();
+  });
+
+  welcomeWindow.on("close", function() {
+    app.quit();
+  });
+
+  annotationWindow.on("close", function() {
+    app.quit();
+  });
+
   welcomeWindow.once("ready-to-show", function() {
     welcomeWindow.show();
   });
 
   ipcMain.on("details-submitted", function(event, data) {
-    welcomeWindow.close();
+    welcomeWindow.hide();
     mainWindow.webContents.send("create-details", data);
     mainWindow.show();
   });
 
   ipcMain.on("annotation-ready", function(event, data) {
-    welcomeWindow.close();
+    welcomeWindow.hide();
     annotationWindow.webContents.send("create-details", data);
     annotationWindow.show();
-    //annotationWindow.openDevTools();
+    annotationWindow.openDevTools();
   });
 
   ipcMain.on("session-complete", function(event, data) {
