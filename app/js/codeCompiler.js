@@ -126,7 +126,18 @@ function runTests(doc) {
       compiled = true;
       var verdict = true;
       if (code != 0) {
-        verdict = false;
+        unfreeze();
+        $("#modal .closeButton").unbind("click");
+        $("#modal .modal-title").text("Wrong!");
+        $("#modal .modal-body p").text("Your code failed in at least one of the test cases. Please try again.");
+        logEvent("code submitted", {
+          verdict: "failed"
+        });
+        $("#modal").modal("show");
+        $("#modal .closeButton").click(function() {
+          $("#modal .closeButton").unbind("click");
+          $("#modal").modal("hide");
+        });
       }
       else {
         function checkTestCase(number, callback) {

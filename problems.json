@@ -76,18 +76,18 @@
     ]
   },
   {
-    "problemStatement" : "Write a program that asks for the total price of items bought in a store. If the total price is at least 500 but less than 1000, the customer gets a 5% discount. If the total price is at least 1000, the customer gets a 10% discount. Display the amount due to the customer, rounded up to two decimal places.",
+    "problemStatement" : "Write a program that asks for the total price of items bought in a store. If the total price is at least 500 but less than 1000, the customer gets a 5% discount. If the total price is at least 1000, the customer gets a 10% discount. Display the amount due to the customer as a double.",
     "sampleInput": "2000",
-    "sampleOutput": "1800.00",
+    "sampleOutput": "1800.0",
     "constraints": ["Assume the total price is a positive number", "It is possible that the total price is NOT a whole number (e.g., 250.50)."],
     "testCases" : [
       {
         "inputString" : "2000",
-        "outputString" : "1800.00"
+        "outputString" : "1800.0"
       },
       {
         "inputString" : "100",
-        "outputString" : "100.00"
+        "outputString" : "100.0"
       },
       {
         "inputString" : "90.75",
@@ -95,47 +95,47 @@
       },
       {
         "inputString" : "500",
-        "outputString" : "475.00"
+        "outputString" : "475.0"
       },
       {
         "inputString" : "1000",
-        "outputString" : "900.00"
+        "outputString" : "900.0"
       },
       {
         "inputString" : "1750",
-        "outputString" : "1575.00"
+        "outputString" : "1575.0"
       }
     ]
   },
   {
-    "problemStatement" : "Write a program that accepts the number of scores, followed by the individual scores. The program should display the average score, rounded up to two decimal places.",
+    "problemStatement" : "Write a program that accepts the number of scores, followed by the individual scores. The program should display the average score as a double value.",
     "sampleInput": "3 70 75 80",
     "sampleOutput": "75.00",
     "constraints": ["Assume the scores range from 1 to 100.", "The scores may NOT be a whole number (e.g., 90.5).", "There is always at least one score."],
     "testCases" : [
       {
         "inputString" : "3 70 75 80",
-        "outputString" : "75.00"
+        "outputString" : "75.0"
       },
       {
         "inputString" : "1 80",
-        "outputString" : "80.00"
+        "outputString" : "80.0"
       },
       {
         "inputString" : "6 70 75 85 94 40 85",
-        "outputString" : "74.83"
+        "outputString" : "74.83333333333333"
       },
       {
         "inputString" : "5 60 70 60 60 55",
-        "outputString" : "61.00"
+        "outputString" : "61.0"
       },
       {
         "inputString" : "2 90 90",
-        "outputString" : "90.00"
+        "outputString" : "90.0"
       },
       {
         "inputString" : "3 85.5 95.5 75.75",
-        "outputString" : "85.58"
+        "outputString" : "85.58333333333333"
       }
     ]
   },
