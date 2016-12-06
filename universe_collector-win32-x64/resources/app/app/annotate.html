@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="stylesheet" href="css/bootstrap.min.css"  />
+    <link rel="stylesheet" href="css/custom.css" />
+    <link rel="stylesheet" href="css/annotate.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Annotation</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <video id="playback">
+          </video>
+        </div>
+        <div class="col-md-6">
+          <pre id="editor"></pre>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <input id="slider" type="range" min="0" max="1" step="1" />
+        </div>
+      </div>
+    </div>
+
+    <script>window.$ = window.jQuery = require("./js/jquery-3.1.1.min.js");</script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/src-min-noconflict/ace.js"></script>
+    <script>
+      const ipcRenderer = require("electron").ipcRenderer;
+      const Range = ace.require("ace/range").Range;
+      const Document = ace.require("ace/document").Document;
+      const fs = require("fs");
+      var idNumber = null;
+      var historyList = null;
+      var codeSnapShots = [];
+      var cursorSnapShots = [];
+      var lookup = [];
+      var lookupCursor = [];
+
+      ipcRenderer.on("create-details", function(event, data) {
+        idNumber = data.idNumber;
+        $("video#playback").prop("src", __dirname + "/../data/" + idNumber + ".webm");
+        historyList = JSON.parse(fs.readFileSync(__dirname + "/../data/" + idNumber + ".txt", "utf8"));
+        console.log(historyList);
+        var last = historyList[historyList.length - 1];
+        $("#slider").prop("max", last.timestamp);
+
+        var document = new Document("");
+        codeSnapShots[0] = document.getValue();
+        cursorSnapShots[0] = {row: 0, column: 0};
+
+        for (var i = 0; i < historyList.length; i++) {
+          var item = historyList[i];
+          if (item.type == "changeDocument") {
+            var timestamp = item.timestamp;
+
+            var eventData = historyList[i].eventData;
+            var toAdd = "";
+            for (var j = 0; j < eventData.lines.length; j++) {
+              toAdd += eventData.lines[j];
+              if (j != eventData.lines.length - 1) {
+                toAdd += "\n";
+              }
+            }
+            var startRow = eventData.start.row;
+            var startCol = eventData.start.column;
+            var endRow = eventData.end.row;
+            var endCol = eventData.end.column;
+
+            if (eventData.action == "insert") {
+              var range = new Range(startRow, startCol, startRow, startCol);
+              var obj = document.replace(range, toAdd);
+              document.applyDeltas(obj);
+            }
+            else {
+              var range = new Range(startRow, startCol, endRow, endCol);
+              var obj = document.replace(range, "");
+              document.applyDeltas(obj);
+            }
+            codeSnapShots[timestamp] = document.getValue();
+          }
+          else if (item.type == "changeCursor") {
+            var timestamp = item.timestamp;
+            var eventData = historyList[i].eventData;
+
+            cursorSnapShots[timestamp] = {row: eventData.row, column: eventData.column};
+          }
+        }
+        console.log(codeSnapShots);
+        var last = 0;
+        var lastCursor = 0;
+        for (var i = 0; i < codeSnapShots.length; i++) {
+          if (codeSnapShots[i] != undefined) {
+            last = i;
+          }
+          if (cursorSnapShots[i] != undefined) {
+            lastCursor = i;
+          }
+          lookup[i] = last;
+          lookupCursor[i] = lastCursor;
+        }
+        console.log(cursorSnapShots);
+      });
+      $(document).ready(function() {
+        editor = ace.edit("editor");
+        editor.setTheme("ace/theme/clouds");
+        editor.session.setMode("ace/mode/c_cpp");
+        editor.setFontSize(14);
+        editor.setReadOnly(true);
+        editor.getSession().getDocument().on("change", function() {
+          console.log("changed");
+        });
+
+        $("#slider").val(0);
+
+        $("#slider").on("input", function() {
+          var val = $("#slider").val();
+          console.log(val);
+          seconds = val / 1000;
+          $("video#playback").prop("currentTime", seconds);
+
+          editor.getSession().getDocument().setValue("");
+          editor.getSession().getDocument().setValue(codeSnapShots[lookup[val]]);
+          editor.moveCursorTo(cursorSnapShots[lookup[val]]);
+        });
+      });
+    </script>
+  </body>
+</html>

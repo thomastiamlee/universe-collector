@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"  />
+    <link rel="stylesheet" href="css/welcome.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="idNumber">ID Number:</label>
+            <input type="text" class="form-control" id="idNumber">
+          </div>
+          <button class="btn btn-default submitButton">Collect</button>
+          <button class="btn btn-default annotateButton">Annotate</button>
+        </div>
+      </div>
+    </div>
+
+    <script>window.$ = window.jQuery = require("./js/jquery-3.1.1.min.js");</script>
+    <script src="js/bootstrap.js"></script>
+    <script>var ipcRenderer = require("electron").ipcRenderer</script>
+    <script>var fs = require("fs");</script>
+    <script>
+      $(document).ready(function() {
+        $("button.submitButton").click(function() {
+          var idNumber = $("input#idNumber").val();
+          var data = {
+            idNumber: idNumber
+          }
+          if (idNumber == "") {
+            alert("ID number cannot be empty");
+            return;
+          }
+          target = fs.existsSync(__dirname + "/../data/" + idNumber + ".txt");
+          if (target == true) {
+            alert("ID number already exists. Please delete the old directory if you wish to override the old data.");
+            return;
+          }
+          ipcRenderer.send("details-submitted", data);
+        });
+        $("button.annotateButton").click(function() {
+          var idNumber = $("input#idNumber").val();
+          var data = {
+            idNumber: idNumber
+          }
+          if (idNumber == "") {
+            alert("ID number cannot be empty");
+            return;
+          }
+          target = fs.existsSync(__dirname + "/../data/" + idNumber + ".txt");
+          if (target == false) {
+            alert("No data for this ID number yet.");
+            return;
+          }
+          ipcRenderer.send("annotation-ready", data);
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -22,8 +22,23 @@
         </div>
       </div>
       <div class="row">
+        <div class="col-md-6">
+          <p id="timeInformation">0 seconds</p>
+        </div>
+        <div class="col-md-6">
+          <p id="modeInformation">Mode: Forward</p>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-md-12">
           <input id="slider" type="range" min="0" max="1" step="1" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p>Last Key Moment:</p>
+          <p id="keyMomentType"></p>
+          <p id="keyMomentVerdict"></p>
         </div>
       </div>
     </div>
@@ -36,12 +51,37 @@
       const Range = ace.require("ace/range").Range;
       const Document = ace.require("ace/document").Document;
       const fs = require("fs");
+      var mode = 1;
       var idNumber = null;
       var historyList = null;
       var codeSnapShots = [];
       var cursorSnapShots = [];
+      var keyMomentSnapShots = [];
       var lookup = [];
       var lookupCursor = [];
+
+      function search(timestamp, target) {
+        var len = target.length;
+        var lo = 0;
+        var hi = len - 1;
+        while (lo <= hi) {
+          var mid = parseInt((lo + hi) / 2);
+          if (timestamp >= target[mid].timestamp) {
+            if (mid == len - 1) {
+              return mid;
+            }
+            else if (timestamp < target[mid + 1].timestamp) {
+              return mid;
+            }
+            else {
+              lo = mid + 1;
+            }
+          }
+          else {
+            hi = mid - 1;
+          }
+        }
+      }
 
       ipcRenderer.on("create-details", function(event, data) {
         idNumber = data.idNumber;
@@ -52,8 +92,9 @@
         $("#slider").prop("max", last.timestamp);
 
         var document = new Document("");
-        codeSnapShots[0] = document.getValue();
+        codeSnapShots[0] = {timestamp: 0, eventValue: document.getValue()};
         cursorSnapShots[0] = {row: 0, column: 0};
+        keyMomentSnapShots[0] = {timestamp: 0, eventValue: {eventType: "start", verdict: ""}};
 
         for (var i = 0; i < historyList.length; i++) {
           var item = historyList[i];
@@ -83,52 +124,104 @@
               var obj = document.replace(range, "");
               document.applyDeltas(obj);
             }
-            codeSnapShots[timestamp] = document.getValue();
+            codeSnapShots.push({timestamp: timestamp, eventValue: document.getValue()});
           }
           else if (item.type == "changeCursor") {
             var timestamp = item.timestamp;
             var eventData = historyList[i].eventData;
 
-            cursorSnapShots[timestamp] = {row: eventData.row, column: eventData.column};
+            cursorSnapShots.push({timestamp: timestamp, eventValue: {row: eventData.row, column: eventData.column}});
+          }
+          else if (item.type == "code compiled") {
+            var verdict = item.eventData.verdict;
+            var timestamp = item.timestamp;
+            keyMomentSnapShots.push({timestamp: timestamp, eventValue: {eventType: "code compiled", verdict: verdict}});
+          }
+          else if (item.type == "code submitted") {
+            var verdict = item.eventData.verdict;
+            var timestamp = item.timestamp;
+            keyMomentSnapShots.push({timestamp: timestamp, eventValue: {eventType: "code submitted", verdict: verdict}});
           }
         }
         console.log(codeSnapShots);
-        var last = 0;
-        var lastCursor = 0;
-        for (var i = 0; i < codeSnapShots.length; i++) {
-          if (codeSnapShots[i] != undefined) {
-            last = i;
-          }
-          if (cursorSnapShots[i] != undefined) {
-            lastCursor = i;
-          }
-          lookup[i] = last;
-          lookupCursor[i] = lastCursor;
-        }
         console.log(cursorSnapShots);
+        console.log(keyMomentSnapShots);
       });
       $(document).ready(function() {
         editor = ace.edit("editor");
         editor.setTheme("ace/theme/clouds");
-        editor.session.setMode("ace/mode/c_cpp");
+        editor.session.setMode("ace/mode/java");
         editor.setFontSize(14);
         editor.setReadOnly(true);
-        editor.getSession().getDocument().on("change", function() {
-          console.log("changed");
-        });
-
         $("#slider").val(0);
+        $("#slider").on("input", updateTimeline);
+      });
 
-        $("#slider").on("input", function() {
-          var val = $("#slider").val();
-          console.log(val);
-          seconds = val / 1000;
-          $("video#playback").prop("currentTime", seconds);
+      function updateTimeline() {
+        var val = $("#slider").val();
+        seconds = val / 1000;
+        $("video#playback").prop("currentTime", seconds + 5000);
 
-          editor.getSession().getDocument().setValue("");
-          editor.getSession().getDocument().setValue(codeSnapShots[lookup[val]]);
-          editor.moveCursorTo(cursorSnapShots[lookup[val]]);
-        });
+        editor.getSession().getDocument().setValue("");
+        editor.getSession().getDocument().setValue(codeSnapShots[search(val, codeSnapShots)].eventValue);
+
+        $("p#timeInformation").text(seconds + " seconds");
+        if (mode == 1) {
+          $("p#modeInformation").text("Mode: Forward");
+        }
+        else {
+          $("p#modeInformation").text("Mode: Backward");
+        }
+
+        var index = search(val, keyMomentSnapShots);
+        var eventType = keyMomentSnapShots[index].eventValue.eventType;
+        if (eventType == "code compiled") {
+          $("p#keyMomentType").text((keyMomentSnapShots[index].timestamp / 1000) + " seconds: Code compiled with verdict " + keyMomentSnapShots[index].eventValue.verdict);
+        }
+        else if (eventType == "code submitted") {
+          $("p#keyMomentType").text((keyMomentSnapShots[index].timestamp / 1000) + " seconds: Code submitted with verdict " + keyMomentSnapShots[index].eventValue.verdict);
+        }
+        else if (eventType == "start") {
+          $("p#keyMomentType").text("0 seconds: Code started");
+        }
+
+      }
+
+      $(document).on("keypress", function(event) {
+        var num = event.charCode - 48;
+        if (num >= 1 && num <= 9) {
+          var curr = parseInt($("#slider").val());
+          if (mode == 1) {
+            $("#slider").val(curr + num * 1000);
+          }
+          else {
+            $("#slider").val(curr - num * 1000);
+          }
+          console.log($("#slider").val());
+          updateTimeline();
+        }
+        else if (event.charCode == 122) {
+          if (mode == 1) mode = 2; else mode = 1;
+          updateTimeline();
+        }
+        else if (event.charCode == 97) {
+          var curr = parseInt($("#slider").val());
+          if (curr == 0) {
+            return;
+          }
+          var index = search(curr - 1, keyMomentSnapShots);
+          $("#slider").val(keyMomentSnapShots[index].timestamp);
+          updateTimeline();
+        }
+        else if (event.charCode == 115) {
+          var curr = parseInt($("#slider").val());
+          var index = search(curr, keyMomentSnapShots);
+          if (index == keyMomentSnapShots.length - 1) {
+            return;
+          }
+          $("#slider").val(keyMomentSnapShots[index + 1].timestamp);
+          updateTimeline();
+        }
       });
     </script>
   </body>

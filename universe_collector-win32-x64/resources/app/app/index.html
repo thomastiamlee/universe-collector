@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Universe Collector</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"  />
+    <link rel="stylesheet" href="css/custom.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <pre id="editor"></pre>
+        </div>
+        <div class="col-md-4">
+          <div id="problemRow" class="row">
+            <div class="col-md-12">
+              <h4>Problem <span id="problemNumber">1</span></h4>
+              <p id="problemStatement">
+
+              </p>
+              <h4 class="problemSubHeader">Sample Input</h5>
+              <p id="sampleInput"></p>
+              <h4 class="problemSubHeader">Sample Output</h5>
+              <p id="sampleOutput"></p>
+              <h4 class="problemSubHeader">Constraints</h4>
+              <ul id="constraints">
+
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h5>Separate multiple inputs with space.</h5>
+              <input id="inputField" type="text" class="form-control" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button class="btn btn-default controlButton runButton">Test Run</button>
+              <button class="btn btn-default controlButton submitButton">Submit Code</button>
+              <img id="loader" src="hourglass.gif" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h5>Console / Output</h5>
+          <textarea readonly id="console"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <p></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default closeButton">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+    <div id="finishedModal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Thank you!</h4>
+          </div>
+          <div class="modal-body">
+            <p>Thank you for participating in this data collection. Please call the attention of the facilitator.</p>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+    <script>
+      const fs = require("fs");
+      const readline = require("readline");
+      const spawn = require("child_process").spawn;
+      const spawnSync = require("child_process").spawnSync;
+      const ipcRenderer = require("electron").ipcRenderer;
+      var editor = null;
+      var problem = null;
+      var currentProblem = -1;
+      var idNumber = null;
+      var recorder = null;
+    </script>
+    <script>window.$ = window.jQuery = require("./js/jquery-3.1.1.min.js");</script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/src-min-noconflict/ace.js"></script>
+    <script src="js/interfaceLoader.js"></script>
+    <script src="js/historyWriter.js"></script>
+    <script src="js/codeCompiler.js"></script>
+    <script src="js/videoRecorder.js"></script>
+    <script>
+      ipcRenderer.on("create-details", function(event, data) {
+        idNumber = data.idNumber;
+        document.title = data.idNumber;
+
+        loadProblem(0);
+        startSession();
+        //initializeRecorder();
+      });
+
+      $(document).ready(function() {
+        editor = ace.edit("editor");
+        editor.setTheme("ace/theme/clouds");
+        editor.session.setMode("ace/mode/java");
+        editor.setFontSize(14);
+        editor.on("change", function(data) {
+          logEvent("changeDocument", data);
+        });
+        var selection = editor.getSelection();
+        selection.on("changeCursor", function() {
+          var cursor = selection.getCursor();
+          logEvent("changeCursor", cursor);
+        });
+
+        $(".submitButton").on("click", function() {
+          runTests(editor.getSession().getDocument());
+        });
+
+        $(".runButton").on("click", function() {
+          runCode(editor.getSession().getDocument());
+        });
+
+      });
+    </script>
+  </body>
+</html>

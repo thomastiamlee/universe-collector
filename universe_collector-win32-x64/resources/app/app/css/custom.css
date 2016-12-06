@@ -1,0 +1,34 @@
+pre#editor {
+  height: 500px;
+}
+
+textarea#console {
+  height:100px;
+  resize: none;
+  width: 100%;
+}
+
+div#problemRow {
+  height: 375px;
+}
+
+button.controlButton {
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+span.green {
+  color: green;
+}
+
+img#loader {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  top: 10px;
+  display: none;
+}
+
+h5.problemSubHeader {
+  color: green;
+}
